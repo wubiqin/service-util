@@ -120,7 +120,9 @@ public class ZkServiceDiscovery {
 		latch.await();
 	}
 
-
+	/**
+	 * prevent session closed
+	 */
 	static class ConnectedWatcher implements Watcher {
 		private CountDownLatch latch;
 
