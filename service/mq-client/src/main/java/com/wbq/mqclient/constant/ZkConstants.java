@@ -1,4 +1,4 @@
-package com.wbq.mqclient.util.com.wbq.mqclient.constant;
+package com.wbq.mqclient.constant;
 
 /**
   *
