@@ -1,0 +1,13 @@
+syntax = "proto3";
+option java_package = "com.wbq.protobuf.proto";
+option java_outer_classname = "Chat";
+
+message CPrivateChat {
+    string self = 1; //发送消息者的userid
+    string dest = 2; //消息目标的userid
+    string content = 3; //消息内容
+}
+
+message SPrivateChat {
+    string content = 1;
+}

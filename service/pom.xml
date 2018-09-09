@@ -9,6 +9,7 @@
 	<modules>
 		<module>api</module>
 		<module>mq-client</module>
+		<module>protobuf</module>
 	</modules>
 	<packaging>pom</packaging>
 
@@ -31,6 +32,8 @@
 		<netty.version>4.1.29.Final</netty.version>
 		<hession.version>4.0.51</hession.version>
 		<zk.version>3.4.13</zk.version>
+		<grpc.version>1.14.0</grpc.version>
+		<protobuf.version>3.6.1</protobuf.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -76,6 +79,30 @@
 						<artifactId>slf4j-log4j12</artifactId>
 					</exclusion>
 				</exclusions>
+			</dependency>
+			<!--grpc-->
+			<dependency>
+				<groupId>io.grpc</groupId>
+				<artifactId>grpc-netty</artifactId>
+				<version>${grpc.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>io.grpc</groupId>
+				<artifactId>grpc-protobuf</artifactId>
+				<version>${grpc.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>io.grpc</groupId>
+				<artifactId>grpc-stub</artifactId>
+				<version>${grpc.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.google.protobuf</groupId>
+				<artifactId>protobuf-java</artifactId>
+				<version>${protobuf.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

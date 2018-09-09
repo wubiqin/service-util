@@ -1,0 +1,30 @@
+syntax = "proto3";
+option java_package = "com.wbq.protobuf.proto";
+option java_outer_classname = "Internal";
+
+enum Dest {
+    Client = 0;
+    Auth = 1;
+    Logic = 2;
+    Gate = 3;
+}
+
+//服务间的中转协议
+message GTransfer {
+    Dest dest = 1;
+    uint64 netId = 2;
+    string userId = 3;
+    uint32 ptoNum = 4;
+    bytes msg = 5;
+}
+
+//服务间建立连接时发送的协议
+message Greet {
+    enum From {
+        Logic = 0;
+        Gate = 1;
+        Auth = 2;
+    }
+    From from = 1;
+}
+
