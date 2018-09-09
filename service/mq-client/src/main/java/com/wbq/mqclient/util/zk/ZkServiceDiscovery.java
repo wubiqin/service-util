@@ -38,8 +38,6 @@ public class ZkServiceDiscovery {
 
 	private static final ConcurrentMap<String, Set<String>> ADDRESS_MAP = new ConcurrentHashMap<>();
 
-	private static CountDownLatch latch = new CountDownLatch(1);
-
 	private static ThreadPoolExecutor getExecutor() {
 		return new ThreadPoolExecutor(5, 5, 200, TimeUnit.SECONDS,
 				new LinkedBlockingDeque<>(1000), new ThreadFactoryBuilder().setNameFormat("wbq-thread-%d").build());
@@ -115,6 +113,7 @@ public class ZkServiceDiscovery {
 	}
 
 	private static void initZk(String address) throws IOException, InterruptedException {
+		CountDownLatch latch = new CountDownLatch(1);
 		Watcher watcher = new ConnectedWatcher(latch);
 		zooKeeper = new ZooKeeper(address, 10000, watcher);
 		latch.await();

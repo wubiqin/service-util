@@ -31,8 +31,6 @@ public class ZkServiceRegistry {
 
 	private static final ReentrantLock LOCK = new ReentrantLock(true);
 
-	private static CountDownLatch latch = new CountDownLatch(1);
-
 	/**
 	 * registry service
 	 * @param port port
@@ -137,6 +135,7 @@ public class ZkServiceRegistry {
 	 * @throws IOException exception
 	 */
 	private static void initZk(String address) throws IOException, InterruptedException {
+		CountDownLatch latch = new CountDownLatch(1);
 		Watcher watcher = new ConnectedWatcher(latch);
 		zooKeeper = new ZooKeeper(address, 10000, watcher);
 		latch.await();
