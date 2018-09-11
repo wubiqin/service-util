@@ -35,7 +35,7 @@ public class NettyDecoder extends ByteToMessageDecoder {
             return;
         }
         if (len > in.readableBytes() - 4) {
-            //注意！编解码器in.readInt()日志，在大并发的情况下很可能会抛数组越界异常！
+            //编解码器in.readInt()日志，在大并发的情况下很可能会抛数组越界异常！
             in.resetReaderIndex();
             return;
         }
