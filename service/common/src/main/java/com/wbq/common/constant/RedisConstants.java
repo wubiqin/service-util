@@ -34,4 +34,10 @@ public interface RedisConstants {
     String REDIS_AUTH = "redis.auth";
 
     String REDIS_EXPIRE = "redis.expire";
+    /**
+     * 不存在key
+     */
+    int KEY_NO_EXIST =-2;
+
+    long DEFAULT_SLEEP_TIME =1000;
 }
