@@ -108,6 +108,6 @@ public class DistributedLock extends RedisPoolsUtils {
         //lua script
         String script = "if redis.call('get', KEYS[1])==ARGV[1] then return redis.call('del',KEYS[1]) else return 0 end";
         Object result = this.jedis.eval(script, Collections.singletonList(key), Collections.singletonList(value));
-        return !result.equals(0);
+        return !RedisConstants.FAIL_RELEASE_LOCK.equals(result);
     }
 }

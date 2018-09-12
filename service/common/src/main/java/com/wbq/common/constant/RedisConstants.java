@@ -37,7 +37,9 @@ public interface RedisConstants {
     /**
      * 不存在key
      */
-    int KEY_NO_EXIST =-2;
+    int KEY_NO_EXIST = -2;
 
-    long DEFAULT_SLEEP_TIME =1000;
+    long DEFAULT_SLEEP_TIME = 1000;
+
+    String FAIL_RELEASE_LOCK = "0";
 }
