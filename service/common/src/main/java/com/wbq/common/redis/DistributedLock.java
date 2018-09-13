@@ -8,7 +8,7 @@ import redis.clients.jedis.Jedis;
 import java.util.Collections;
 
 /**
- *  *  基于redis setnx实现分布式锁
+ *  *  基于redis 实现分布式锁
  *  * @author biqin.wu
  *  * @since 13 九月 2018
  *  
@@ -87,7 +87,30 @@ public class DistributedLock extends RedisPoolsUtils {
     }
 
     /**
-     * release lock with given key  may occur problem that other task del the key
+     * try obtain lock with given count
+     *
+     * @param key    key
+     * @param value  value
+     * @param expire expire time
+     * @param count  try times
+     * @return <code>true</code> <code>false</code>
+     * @throws InterruptedException exception
+     */
+    public boolean tryObtainLockWithGivenCount(String key, String value, int expire, int count) throws InterruptedException {
+        while (count > 0) {
+            boolean result = obtainLock(key, value, expire);
+            if (result) {
+                return true;
+            }
+            count--;
+            //prevent from Consumption cpu
+            Thread.sleep(RedisConstants.DEFAULT_SLEEP_TIME);
+        }
+        return false;
+    }
+
+    /**
+     * release lock with given key may occur problem that other task del the key
      *
      * @param key key
      * @return <code>true</code> <code>false</code>
@@ -98,7 +121,7 @@ public class DistributedLock extends RedisPoolsUtils {
     }
 
     /**
-     * use lua to guarantee atom
+     * use lua to guarantee atomic
      *
      * @param key   key
      * @param value value
