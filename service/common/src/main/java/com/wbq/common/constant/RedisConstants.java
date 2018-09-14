@@ -42,4 +42,6 @@ public interface RedisConstants {
     long DEFAULT_SLEEP_TIME = 1000;
 
     String FAIL_RELEASE_LOCK = "0";
+
+    int FAIL_CODE =0;
 }
