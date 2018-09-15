@@ -50,14 +50,14 @@ public class FileUtils {
     /**
      * read script
      *
-     * @param path  file path
-     * @param clazz class
+     * @param filename file name
+     * @param clazz    class
      * @return string
      */
-    public static String getScript(String path, Class<?> clazz) {
+    public static String getScript(String filename, Class<?> clazz) {
         StringBuilder sb = new StringBuilder();
 
-        InputStream in = clazz.getClassLoader().getResourceAsStream(path);
+        InputStream in = clazz.getClassLoader().getResourceAsStream(filename);
         BufferedReader br = new BufferedReader(new InputStreamReader(in));
         try {
 
@@ -66,7 +66,7 @@ public class FileUtils {
                 sb.append(str).append(System.lineSeparator());
             }
         } catch (IOException e) {
-            logger.error("fail to read script path={}", path);
+            logger.error("fail to read script filename={}", filename);
         }
         return sb.toString();
     }

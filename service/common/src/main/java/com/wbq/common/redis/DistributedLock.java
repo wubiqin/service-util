@@ -9,6 +9,7 @@ import java.util.Collections;
 
 /**
  *  *  基于redis 实现分布式锁
+ * must release jedis connection by calling {@link com.wbq.common.redis.RedisPoolsUtils#releaseConnection(Jedis jedis);}
  *  * @author biqin.wu
  *  * @since 13 九月 2018
  *  
