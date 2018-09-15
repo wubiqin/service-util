@@ -37,6 +37,7 @@
         <grpc.version>1.14.0</grpc.version>
         <protobuf.version>3.6.1</protobuf.version>
         <jedis.version>2.9.0</jedis.version>
+        <curator-recipes_version>4.0.1</curator-recipes_version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -118,6 +119,13 @@
                 <artifactId>jedis</artifactId>
                 <version>${jedis.version}</version>
             </dependency>
+            <!-- curator-recipes -->
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-recipes</artifactId>
+                <version>${curator-recipes_version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
