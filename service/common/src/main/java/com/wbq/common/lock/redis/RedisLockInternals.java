@@ -1,5 +1,6 @@
-package com.wbq.common.redis.lock;
+package com.wbq.common.lock.redis;
 
+import com.google.common.collect.Lists;
 import com.wbq.common.file.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,6 +8,7 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.LockSupport;
@@ -30,7 +32,9 @@ public class RedisLockInternals {
 
     private int len = 5;
 
-    private final String filename = "redis_lock.lua";
+    private final String lock_script = "redis_lock.lua";
+
+    private final String unlock_script = "redis_unlock.lua";
 
     private final char[] digits = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
             'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
@@ -44,13 +48,15 @@ public class RedisLockInternals {
 
     /**
      * try to set
-     * @param key
-     * @param time
-     * @param unit
-     * @return
+     *
+     * @param key  key
+     * @param time time
+     * @param unit time unit
+     * @return key string or null
      */
-    public boolean tryLock(String key, long time, TimeUnit unit) {
-        final long startMillis = System.nanoTime() / 1000;
+    public String tryLock(String key, long time, TimeUnit unit) {
+        logger.info("try to get redis lock key={},time={}", key, time);
+        final long startNano = System.nanoTime();
         final long millisToWait = (unit != null) ? unit.toMillis(time) : 0;
         String value = null;
         while (value == null) {
@@ -58,14 +64,35 @@ public class RedisLockInternals {
             if (value != null) {
                 break;
             }
-            long diff = System.currentTimeMillis() - startMillis;
+            long diff = (System.nanoTime() - startNano) / 1000;
             if (diff > millisToWait) {
                 break;
             }
             LockSupport.parkNanos(TimeUnit.MICROSECONDS.toNanos(retryAwait));
         }
-        return value != null;
+        return value;
 
+    }
+
+    /**
+     * del key with given value in redis
+     *
+     * @param key   key
+     * @param value value
+     */
+    public void unLock(String key, String value) {
+        logger.info("unlock key={} with the value={}", key, value);
+        Jedis jedis = null;
+        try {
+            jedis = jedisPool.getResource();
+            String script = FileUtils.getScript(unlock_script, this.getClass());
+            long val = (long) jedis.eval(script, Collections.singletonList(key), Collections.singletonList(value));
+            logger.info("del key in redis  key={},flag={}", key, val == 1);
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
     }
 
     /**
@@ -82,11 +109,12 @@ public class RedisLockInternals {
         }
         try {
             jedis = jedisPool.getResource();
-            String redisKey = key + generateId(len);
-            String script = FileUtils.getScript(filename, this.getClass());
-            long count = (long) jedis.eval(script, Collections.singletonList(redisKey), Collections.singletonList(expireTime + ""));
+            String value = key + generateId(len);
+            String script = FileUtils.getScript(lock_script, this.getClass());
+            List<String> args = Lists.newArrayList(value, expireTime + "");
+            long count = (long) jedis.eval(script, Collections.singletonList(key), args);
             if (count == 1) {
-                return redisKey;
+                return value;
             }
         } finally {
             if (jedis != null) {
@@ -108,11 +136,14 @@ public class RedisLockInternals {
         for (int i = 0; i < len; i++) {
             cs[i] = digits[ThreadLocalRandom.current().nextInt(digits.length)];
         }
-        return new String(cs);
+        String randomId = new String(cs);
+        logger.info("generate randomId  randomId={}", randomId);
+        return randomId;
     }
 
     private void checkParam(int length) {
         if (length < 1) {
+            logger.error("length must > 0 length={}", length);
             throw new IllegalArgumentException("length must > 0");
         }
     }

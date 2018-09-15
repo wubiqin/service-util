@@ -2,7 +2,7 @@ package com.wbq.common.limiting;
 
 import com.google.common.collect.Lists;
 import com.wbq.common.file.FileUtils;
-import com.wbq.common.redis.RedisPoolsUtils;
+import com.wbq.common.lock.RedisPoolsUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;

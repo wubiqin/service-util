@@ -7,7 +7,7 @@ local currentLimit = tonumber(redis.call('get',key) or "0")
 
 if currentLimit + 1 > limit
     --达到限流大小 返回
-    then return 0;
+    then return 0
 else
     --没有达到 currentLimit+1
     redis.call("INCRBY",key,1)

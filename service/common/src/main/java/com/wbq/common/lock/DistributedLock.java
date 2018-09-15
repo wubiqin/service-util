@@ -1,4 +1,4 @@
-package com.wbq.common.redis;
+package com.wbq.common.lock;
 
 import com.wbq.common.constant.RedisConstants;
 import org.slf4j.Logger;
@@ -9,7 +9,7 @@ import java.util.Collections;
 
 /**
  *  *  基于redis 实现分布式锁
- * must release jedis connection by calling {@link com.wbq.common.redis.RedisPoolsUtils#releaseConnection(Jedis jedis);}
+ * must release jedis connection by calling {@link RedisPoolsUtils#releaseConnection(Jedis jedis);}
  *  * @author biqin.wu
  *  * @since 13 九月 2018
  *  
@@ -47,7 +47,7 @@ public class DistributedLock extends RedisPoolsUtils {
 
     /**
      * block until obtain lock
-     * {@link com.wbq.common.redis.DistributedLock#obtainLock(String key, String value, int expire)}
+     * {@link DistributedLock#obtainLock(String key, String value, int expire)}
      *
      * @param key    key
      * @param value  value

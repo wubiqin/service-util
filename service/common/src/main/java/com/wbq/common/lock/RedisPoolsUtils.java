@@ -1,4 +1,4 @@
-package com.wbq.common.redis;
+package com.wbq.common.lock;
 
 import com.wbq.common.constant.RedisConstants;
 import com.wbq.common.file.FileUtils;
