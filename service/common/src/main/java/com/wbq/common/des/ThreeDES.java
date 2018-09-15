@@ -68,7 +68,7 @@ public class ThreeDES {
         } catch (IllegalBlockSizeException | BadPaddingException e) {
             logger.error("fail to decrypt decrypt, cipherBytes={}", cipherBytes);
         } catch (InvalidKeyException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
         return decryptBytes;
     }
