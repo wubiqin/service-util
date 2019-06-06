@@ -60,7 +60,6 @@ public class FileUtils {
         InputStream in = clazz.getClassLoader().getResourceAsStream(filename);
         BufferedReader br = new BufferedReader(new InputStreamReader(in));
         try {
-
             String str;
             while ((str = br.readLine()) != null) {
                 sb.append(str).append(System.lineSeparator());

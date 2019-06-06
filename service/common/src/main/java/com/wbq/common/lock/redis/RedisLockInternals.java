@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.params.SetParams;
 
 import java.util.Collections;
 import java.util.List;
@@ -146,6 +147,12 @@ public class RedisLockInternals {
             logger.error("length must > 0 length={}", length);
             throw new IllegalArgumentException("length must > 0");
         }
+    }
+
+    private boolean setnx(String key, String val, int s) {
+        String res = jedisPool.getResource().set(key, val, SetParams.setParams().nx().ex(s));
+
+        return "OK".equalsIgnoreCase(res);
     }
 
 }

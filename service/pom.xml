@@ -36,7 +36,7 @@
         <zk.version>3.4.13</zk.version>
         <grpc.version>1.14.0</grpc.version>
         <protobuf.version>3.6.1</protobuf.version>
-        <jedis.version>2.9.0</jedis.version>
+        <jedis.version>3.0.1</jedis.version>
         <curator-recipes_version>4.0.1</curator-recipes_version>
     </properties>
     <dependencyManagement>
