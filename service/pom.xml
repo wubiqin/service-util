@@ -29,7 +29,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <jackson.version>2.9.6</jackson.version>
+        <jackson.version>2.9.10.1</jackson.version>
         <guava.version>26.0-jre</guava.version>
         <netty.version>4.1.29.Final</netty.version>
         <hession.version>4.0.51</hession.version>
