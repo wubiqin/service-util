@@ -33,7 +33,7 @@
         <guava.version>26.0-jre</guava.version>
         <netty.version>4.1.29.Final</netty.version>
         <hession.version>4.0.51</hession.version>
-        <zk.version>3.4.13</zk.version>
+        <zk.version>3.4.14</zk.version>
         <grpc.version>1.14.0</grpc.version>
         <protobuf.version>3.6.1</protobuf.version>
         <jedis.version>3.0.1</jedis.version>
